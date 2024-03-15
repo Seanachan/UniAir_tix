@@ -37,11 +37,7 @@ Step 3 : Download required packages
 
 Step 4 : Run the code
 
-`python3 main.py <date to book> <total number of passengers> <number of adults(non residents)> <number of adult residents>`
-
-> Example:
->
-> python3 main.py 2024/03/14 3 2 1
+`python3 main.py`
 
 # Problems
 
