@@ -6,15 +6,15 @@ import datetime
 import os
 import sys
 import re
-window = tk.Tk()
-window.title("settings.py")
-window.geometry('380x400')
-window.resizable(False, False)
-menu = tk.Menu(window)
-window.config(menu=menu)
-menu.add_command(label="File")
-menu.add_command(label='Browser')
-menu.add_command(label="Preference")
+# window = tk.Tk()
+# window.title("settings.py")
+# window.geometry('380x400')
+# window.resizable(False, False)
+# menu = tk.Menu(window)
+# window.config(menu=menu)
+# menu.add_command(label="File")
+# menu.add_command(label='Browser')
+# menu.add_command(label="Preference")
 CONST_CHROME_DRIVER_WEBSITE = 'https://chromedriver.chromium.org/'
 CONST_EDGE_DRIVER_WEBSITE = 'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/#downloads'
 def main():
@@ -29,11 +29,8 @@ def main():
         "date": "",
     }
     while True:
-        print("Choose your browser: ")
-        print("1: Brave")
-        print("2: Chrome")
-        print("3: Edge")
         if platform.system() == 'Darwin':
+            print("Choose your browser: \n1: Brave\n2: Chrome\n3: Edge\n4: Safari")
             data['SYSTEM']="Darwin"
             opt=input()
             if opt=='1':
@@ -42,18 +39,19 @@ def main():
                 data['BROWSER_PATH']=brave_path
             elif opt=='2':
                 data['BROWSER']="Chrome"
-                chrome_path=''
-                data['BROWSER_PATH']=chrome_path
             elif opt=='3':
                 data['BROWSER']="Edge"
-                edge_path=''
-                data['BROWSER_PATH']=edge_path
+            elif opt=='4':
+                data['BROWSER']="Safari"
+                safari_path='/usr/bin/safaridriver'
+                data['BROWSER_PATH']=safari_path
             else:
-                print("Input should be between 1-3")
+                print("Input should be between 1-4")
                 continue
             break
                 
         elif platform.system() == 'Windows':
+            print("Choose your browser: \n1: Brave\n2: Chrome\n3: Edge")
             data['SYSTEM']="Windows"
             opt=input()
             if opt=='1':
@@ -68,12 +66,12 @@ def main():
                     brave_path = "D:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe"
             elif opt=='2':
                 data['BROWSER']="Chrome"
-                chrome_path=""
-                data['BROWSER_PATH']=chrome_path
+                # chrome_path=""
+                # data['BROWSER_PATH']=chrome_path
             elif opt=='3':
                 data['BROWSER']="Edge"
-                
-                data['BROWSER_PATH']=edge_path
+                # edge_path=''
+                # data['BROWSER_PATH']=edge_path
             else:
                 print("Input should be between 1-3")
                 continue

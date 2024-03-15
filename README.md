@@ -16,7 +16,6 @@ Step 2 : Just follow the instructions in command line
 
 Step 3: The desired settings will be stored in settings.json file
 
-
 **Keep the .json file to be stored under the same category**
 
 > You can check where category it is located at by running `pwd`

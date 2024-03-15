@@ -52,14 +52,22 @@ def search_seat(driver,date:str,numOfPassenger:int):
     script_date="return document.getElementById('CPH_Body_hi_TRIP_DATE').value='{}'".format(date)
     driver.execute_script(script_date)
     
+    time.sleep(0.3)
     #click passenger select
     driver.find_element(By.CSS_SELECTOR,"#CPH_Body_tb_PaxNum").click()
+    
+    # WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,"#CPH_Body_div_PaxNum > div > div:nth-child(1) > div > div.col-6.col-lg-5 > div > div:nth-child(3) > button")))
+    time.sleep(1.5)
     #click plus passegner
     for i in range(int(numOfPassenger)-1):
         driver.find_element(By.CSS_SELECTOR,"#CPH_Body_div_PaxNum > div > div:nth-child(1) > div > div.col-6.col-lg-5 > div > div:nth-child(3) > button").click()
+        time.sleep(0.5)
     
-    #wait the button the be ready
-    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#CPH_Body_div_PaxNum > div > button")))
+    if data['BROWSER']=='Safari':
+        driver.implicitly_wait(5)
+    else:
+        #wait the button the be ready
+        WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#CPH_Body_div_PaxNum > div > button")))
     
     #get authentication code
     try:
@@ -67,7 +75,7 @@ def search_seat(driver,date:str,numOfPassenger:int):
         print("auth_code",auth_code)
 
         driver.find_element(By.CSS_SELECTOR,"#CPH_Body_txt_CaptchaCode").send_keys(auth_code)
-    except:
+    except Exception as e:
         print("No need auth_code")
     time.sleep(0.8)
     #click search-btn
@@ -75,7 +83,10 @@ def search_seat(driver,date:str,numOfPassenger:int):
     time.sleep(0.8)
     search_btn.click()
 def but_ticket(driver,adult_num,rsd_adult_num):
-    WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#CPH_Body_uc_SelectFlight_rpt_Flight_btn_SelectFlight_2")))
+    if data['BROWSER']=='Safari':
+        time.sleep(1)
+    else:
+        WebDriverWait(driver,10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "#CPH_Body_uc_SelectFlight_rpt_Flight_btn_SelectFlight_2")))
     flight_selector = "#CPH_Body_uc_SelectFlight_rpt_Flight_btn_SelectFlight_"
     for flight_num in range(4,-1,-1):
         try:
@@ -85,8 +96,11 @@ def but_ticket(driver,adult_num,rsd_adult_num):
             print(e)
             continue
         
-        WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,"#CPH_Body_rpt_FareType_rpt_FareInfo_0_ddl_Num_0")))
-        
+        if data['BROWSER']=='Safari':
+            driver.implicitly_wait(5)
+        else:
+            WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,"#CPH_Body_rpt_FareType_rpt_FareInfo_0_ddl_Num_0")))
+        time.sleep(0.3)
         adult=Select(driver.find_element(By.CSS_SELECTOR,"#CPH_Body_rpt_FareType_rpt_FareInfo_0_ddl_Num_0"))
         time.sleep(1)
         adult.select_by_value(str(adult_num))
@@ -99,8 +113,12 @@ def but_ticket(driver,adult_num,rsd_adult_num):
         confirm.click()
         break
 def confirm_schedule(driver):
-    WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,"#CPH_Body_cb_CheckTrem")))
+    if data['BROWSER']=='Safari':
+        driver.implicitly_wait(5)
+    else:
+        WebDriverWait(driver,10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR,"#CPH_Body_cb_CheckTrem")))
     
+    time.sleep(2)
     checkbox=driver.find_element(By.CSS_SELECTOR,"#CPH_Body_cb_CheckTrem")
     checkbox.click()
     
@@ -150,16 +168,22 @@ def main():
     
     elif BROWSER=='Edge':
         driver_path = os.path.join(driver_path,"msedgedriver")
+        if data['SYSTEM']=='Windows':
+            driver_path = os.path.join(driver_path,"msedgedriver.exe")
         option=webdriver.EdgeOptions()
         option=add_options(option=option)
         driver=webdriver.Edge(service=Service(driver_path),options=option)
-    # elif BROWSER=='Safari':
-    #     driver_path = os.path.join(driver_path,"msedgedriver")
-    #     option=webdriver.SafariOptions()
-    #     driver=webdriver.Safari(service=Service(driver_path),options=option)
+    elif BROWSER=='Safari':
+        driver_path = data['BROWSER_PATH']#actually driver_path
+        # option = webdriver.SafariOptions()
+        # option=add_options(option=option)
+        # option.binary_location = BROWSER_PATH
+        driver = webdriver.Safari()
     
     else:#Chrome
         driver_path = os.path.join(driver_path,"chromedriver")
+        if data['SYSTEM']=='Windows':
+            driver_path = os.path.join(driver_path,"chromedriver.exe")
         option = webdriver.ChromeOptions()
         option=add_options(option=option)
         driver = webdriver.Chrome(service=Service(),options=option)
