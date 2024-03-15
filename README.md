@@ -1,6 +1,6 @@
 # 立榮航空搶票機器人
 
-2024/03/13
+2024/03/15
 
 For the purpose of getting tickets during busy season.
 
