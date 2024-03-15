@@ -2,9 +2,24 @@
 
 2024/03/13
 
-For the purpose of getting tickets during busy season. 
+For the purpose of getting tickets during busy season.
 
 **This bot has been only been tested on Mac M1 Pro**
+
+# How to set up
+
+Step 1 : run this
+
+`python3 settings.py`
+
+Step 2 : Just follow the instructions in command line
+
+Step 3: The desired settings will be stored in settings.json file
+
+
+**Keep the .json file to be stored under the same category**
+
+> You can check where category it is located at by running `pwd`
 
 # How to Execute Source Code
 
